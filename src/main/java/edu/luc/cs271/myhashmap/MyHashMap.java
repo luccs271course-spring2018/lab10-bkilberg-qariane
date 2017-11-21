@@ -45,7 +45,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
   @Override
   public boolean containsKey(final Object key) {
-    // TODO follow basic approach of remove below (though this will be much simpler)
+    // DONE follow basic approach of remove below (though this will be much simpler)
     final int index = calculateIndex(key);
     final Iterator<Entry<K, V>> iter = table.get(index).iterator();
     while (iter.hasNext()) {
@@ -113,15 +113,21 @@ public class MyHashMap<K, V> implements Map<K, V> {
   @Override
   public void putAll(final Map<? extends K, ? extends V> m) {
     // TODO add each entry in m's entrySet
-
-
+    for (int i = 0; i < DEFAULT_TABLE_SIZE; i ++) {
+      final Iterator<Entry<K, V>> iter = table.get(i).iterator();
+      while (iter.hasNext()) {
+        Entry<K, V> entry = iter.next();
+        this.put(entry.getKey(), entry.getValue());
+      }
+    }
   }
 
   @Override
   public void clear() {
     // TODO clear each chain
-
-
+    for (int i = 0; i < DEFAULT_TABLE_SIZE; i++) {
+      table.set(i, new LinkedList<>());
+    }
   }
 
   /** The resulting keySet is not "backed" by the Map, so we keep it unmodifiable. */
