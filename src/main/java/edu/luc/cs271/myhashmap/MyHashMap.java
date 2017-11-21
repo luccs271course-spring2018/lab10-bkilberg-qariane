@@ -49,7 +49,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     final int index = calculateIndex(key);
     final Iterator<Entry<K, V>> iter = table.get(index).iterator();
     while (iter.hasNext()) {
-      final Entry<K, V>> entry = iter.next();
+      final Entry<K, V> entry = iter.next();
       if (entry.getKey().equals(key)) {
         return true;
       }
