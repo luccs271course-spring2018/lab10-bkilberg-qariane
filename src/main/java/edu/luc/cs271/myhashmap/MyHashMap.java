@@ -30,11 +30,13 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
   @Override
   public int size() {
-    // DONE add the sizes of all the chains
+    // Done add the sizes of all the chains
     int result = 0;
-    for (int i = 0; i < DEFAULT_TABLE_SIZE; i++) {
+
+    for (int i = 0; i < table.size(); i++) {
       result += table.get(i).size();
     }
+
     return result;
   }
 
@@ -45,27 +47,32 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
   @Override
   public boolean containsKey(final Object key) {
-    // DONE follow basic approach of remove below (though this will be much simpler)
-    final int index = calculateIndex(key)
+    // Done follow basic approach of remove below (though this will be much simpler)
+    final int index = calculateIndex(key);
     final Iterator<Entry<K, V>> iter = table.get(index).iterator();
+
     while (iter.hasNext()) {
       final Entry<K, V> entry = iter.next();
       if (entry.getKey().equals(key)) {
         return true;
       }
     }
+
     return false;
   }
 
   @Override
   public boolean containsValue(final Object value) {
-    // DONE follow basic approach of remove below (though this will be much simpler)
-    final int index = calculateIndex(value);
-    final Iterator<Entry<K, V>> iter = table.get(index).iterator();
-    while (iter.hasNext()) {
-      final Entry<K, V> entry = iter.next();
-      if (entry.getValue().equals(value)) {
-        return true;
+    // Done follow basic approach of remove below (though this will be much simpler)
+
+    for (int i = 0; i < table.size(); i++) {
+      final Iterator<Entry<K, V>> currChain = table.get(i).iterator();
+
+      while (currChain.hasNext()) {
+        final Entry<K, V> entry = currChain.next();
+        if (entry.getValue().equals(value)) {
+          return true;
+        }
       }
     }
 
@@ -74,24 +81,35 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
   @Override
   public V get(final Object key) {
-    // DONE follow basic approach of remove below (though this will be simpler)
+    // Done follow basic approach of remove below (though this will be simpler)
     final int index = calculateIndex(key);
     final Iterator<Entry<K, V>> iter = table.get(index).iterator();
     while (iter.hasNext()) {
       final Entry<K, V> entry = iter.next();
       if (entry.getKey().equals(key)) {
-        final V value1 = entry.getValue();
-        return value1;
+        return entry.getValue();
       }
     }
+
     return null;
   }
 
   @Override
   public V put(final K key, final V value) {
-    // TODO follow basic approach of remove below (this will be similar)
+    // Done follow basic approach of remove below (this will be similar)
     final int index = calculateIndex(key);
+    final Iterator<Entry<K, V>> iter = table.get(index).iterator();
 
+    while (iter.hasNext()) {
+      final Entry<K, V> entry = iter.next();
+      if (entry.getKey().equals(key)) {
+        final V oldValue = entry.getValue();
+        entry.setValue(value);
+        return oldValue;
+      }
+    }
+
+    table.get(index).add(new AbstractMap.SimpleEntry<K, V>(key, value));
     return null;
   }
 
@@ -107,35 +125,37 @@ public class MyHashMap<K, V> implements Map<K, V> {
         return oldValue;
       }
     }
+
     return null;
   }
 
   @Override
   public void putAll(final Map<? extends K, ? extends V> m) {
-    // Done add each entry in m's entrySet
-    for (int i = 0; i < DEFAULT_TABLE_SIZE; i ++) {
-      final Iterator<Entry<K, V>> iter = table.get(i).iterator();
-      while (iter.hasNext()) {
-        Entry<K, V> entry = iter.next();
-        this.put(entry.getKey(), entry.getValue());
-      }
+    for (Map.Entry<? extends K, ? extends V> entry : m.entrySet()) {
+      this.put(entry.getKey(), entry.getValue());
     }
   }
 
   @Override
   public void clear() {
-    // TODO clear each chain
-    for (int i = 0; i < DEFAULT_TABLE_SIZE; i++) {
-      table.set(i, new LinkedList<>());
+    // Done clear each chain
+    for (int i = 0; i < table.size(); i++) {
+      table.get(i).clear();
     }
-
   }
 
   /** The resulting keySet is not "backed" by the Map, so we keep it unmodifiable. */
   @Override
   public Set<K> keySet() {
     final Set<K> result = new HashSet<>();
-    // TODO populate the set
+    // Done populate the set
+    for (int i = 0; i < table.size(); i++) {
+      final Iterator<Entry<K, V>> currChain = table.get(i).iterator();
+      while (currChain.hasNext()) {
+        final Entry<K, V> entry = currChain.next();
+        result.add(entry.getKey());
+      }
+    }
 
     return Collections.unmodifiableSet(result);
   }
@@ -144,8 +164,14 @@ public class MyHashMap<K, V> implements Map<K, V> {
   @Override
   public Collection<V> values() {
     final List<V> result = new LinkedList<>();
-    // TODO populate the list
-
+    // Done populate the list
+    for (int i = 0; i < table.size(); i++) {
+      final Iterator<Entry<K, V>> currChain = table.get(i).iterator();
+      while (currChain.hasNext()) {
+        final Entry<K, V> entry = currChain.next();
+        result.add(entry.getValue());
+      }
+    }
     return Collections.unmodifiableCollection(result);
   }
 
@@ -153,7 +179,15 @@ public class MyHashMap<K, V> implements Map<K, V> {
   @Override
   public Set<Entry<K, V>> entrySet() {
     final Set<Entry<K, V>> result = new HashSet<>();
-    // TODO populate the set
+    // Done populate the set
+
+    for (int i = 0; i < table.size(); i++) {
+      final Iterator<Entry<K, V>> currChain = table.get(i).iterator();
+      while (currChain.hasNext()) {
+        final Entry<K, V> entry = currChain.next();
+        result.add(entry);
+      }
+    }
 
     return Collections.unmodifiableSet(result);
   }
@@ -169,11 +203,9 @@ public class MyHashMap<K, V> implements Map<K, V> {
       return true;
     } else if (!(that instanceof Map)) {
       return false;
-    } else if (containsKey(that) || containsValue(that)) {
-      return true;
     } else {
-      // DONE simply compare the entry sets
-      return false;
+      // Done simply compare the entry sets
+      return ((Map) that).entrySet().equals(this.entrySet());
     }
   }
 
