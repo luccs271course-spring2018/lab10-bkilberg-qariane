@@ -33,7 +33,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
     // TODO add the sizes of all the chains
     int result = 0;
 
-
     return result;
   }
 
@@ -47,14 +46,12 @@ public class MyHashMap<K, V> implements Map<K, V> {
     // TODO follow basic approach of remove below (though this will be much simpler)
     final int index = calculateIndex(key);
 
-
     return false;
   }
 
   @Override
   public boolean containsValue(final Object value) {
     // TODO follow basic approach of remove below (though this will be much simpler)
-
 
     return false;
   }
@@ -64,7 +61,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
     // TODO follow basic approach of remove below (though this will be simpler)
     final int index = calculateIndex(key);
 
-
     return null;
   }
 
@@ -72,7 +68,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
   public V put(final K key, final V value) {
     // TODO follow basic approach of remove below (this will be similar)
     final int index = calculateIndex(key);
-
 
     return null;
   }
@@ -96,13 +91,11 @@ public class MyHashMap<K, V> implements Map<K, V> {
   public void putAll(final Map<? extends K, ? extends V> m) {
     // TODO add each entry in m's entrySet
 
-
   }
 
   @Override
   public void clear() {
     // TODO clear each chain
-
 
   }
 
@@ -111,7 +104,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
   public Set<K> keySet() {
     final Set<K> result = new HashSet<>();
     // TODO populate the set
-
 
     return Collections.unmodifiableSet(result);
   }
@@ -122,7 +114,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
     final List<V> result = new LinkedList<>();
     // TODO populate the list
 
-
     return Collections.unmodifiableCollection(result);
   }
 
@@ -131,7 +122,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
   public Set<Entry<K, V>> entrySet() {
     final Set<Entry<K, V>> result = new HashSet<>();
     // TODO populate the set
-
 
     return Collections.unmodifiableSet(result);
   }
