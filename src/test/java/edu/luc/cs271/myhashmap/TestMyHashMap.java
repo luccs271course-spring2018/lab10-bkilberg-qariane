@@ -18,6 +18,7 @@ public class TestMyHashMap {
   public void setUp() {
     // TODO create the SUT instance
     fixture = new MyHashMap<>();
+    this.fixture = fixture;
   }
 
   @After

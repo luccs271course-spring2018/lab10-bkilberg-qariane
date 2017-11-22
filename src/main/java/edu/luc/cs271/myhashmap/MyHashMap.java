@@ -46,7 +46,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
   @Override
   public boolean containsKey(final Object key) {
     // DONE follow basic approach of remove below (though this will be much simpler)
-    final int index = calculateIndex(key);
+    final int index = calculateIndex(key)
     final Iterator<Entry<K, V>> iter = table.get(index).iterator();
     while (iter.hasNext()) {
       final Entry<K, V> entry = iter.next();
@@ -68,6 +68,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
         return true;
       }
     }
+
     return false;
   }
 
@@ -91,7 +92,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
     // TODO follow basic approach of remove below (this will be similar)
     final int index = calculateIndex(key);
 
-
     return null;
   }
 
@@ -112,7 +112,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
   @Override
   public void putAll(final Map<? extends K, ? extends V> m) {
-    // TODO add each entry in m's entrySet
+    // Done add each entry in m's entrySet
     for (int i = 0; i < DEFAULT_TABLE_SIZE; i ++) {
       final Iterator<Entry<K, V>> iter = table.get(i).iterator();
       while (iter.hasNext()) {
@@ -128,6 +128,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     for (int i = 0; i < DEFAULT_TABLE_SIZE; i++) {
       table.set(i, new LinkedList<>());
     }
+
   }
 
   /** The resulting keySet is not "backed" by the Map, so we keep it unmodifiable. */
@@ -135,7 +136,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
   public Set<K> keySet() {
     final Set<K> result = new HashSet<>();
     // TODO populate the set
-
 
     return Collections.unmodifiableSet(result);
   }
@@ -146,7 +146,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
     final List<V> result = new LinkedList<>();
     // TODO populate the list
 
-
     return Collections.unmodifiableCollection(result);
   }
 
@@ -155,7 +154,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
   public Set<Entry<K, V>> entrySet() {
     final Set<Entry<K, V>> result = new HashSet<>();
     // TODO populate the set
-
 
     return Collections.unmodifiableSet(result);
   }
